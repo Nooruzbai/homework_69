@@ -1,0 +1,22 @@
+{% extends 'base.html' %}\
+
+{% block content %}
+
+
+        <label for="num1">Number 1:</label>
+        <input type="text" id="num1" name="num1"><br><br>
+
+        <label for="num2">Number 2:</label>
+        <input type="text" id="num2" name="num2"><br><br>
+
+
+
+        <input type="submit" onclick="Add(event)" value="Add" data-api-url="{% url "api:add_view" %}">
+        <input type="submit" onclick="Subtract(event)" value="Subtract" data-api-url="{% url "api:subtract_view" %}">
+        <input type="submit" onclick="Multiply(event)" value="Multiply" data-api-url="{% url "api:multiply_view" %}">
+        <input type="submit" onclick="Divide(event)" value="Divide" data-api-url="{% url "api:divide_view" %}">
+
+
+
+
+{% endblock %}
