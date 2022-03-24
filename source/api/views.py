@@ -16,11 +16,11 @@ def add(request, *args, **kwargs):
         'method': request.method
     }
     request_body_data = json.loads(request.body)
-    if request_body_data['num1'].isdigit() and request_body_data['num2'].isdigit():
+    try:
         result = int(request_body_data['num1']) + int(request_body_data['num2'])
         response_data['answer'] = result
         return JsonResponse(response_data)
-    else:
+    except ValueError:
         response = JsonResponse({"error": "Bad Request !!!"})
         response.status_code = 400
         return response
@@ -31,11 +31,11 @@ def subtract(request,  *args, **kwargs):
         'method': request.method
     }
     request_body_data = json.loads(request.body)
-    if request_body_data['num1'].isdigit() and request_body_data['num2'].isdigit():
+    try:
         result = int(request_body_data['num1']) - int(request_body_data['num2'])
         response_data['answer'] = result
         return JsonResponse(response_data)
-    else:
+    except ValueError:
         response = JsonResponse({"error": "Bad Request"})
         response.status_code = 400
         return response
@@ -46,11 +46,11 @@ def multiply(request,  *args, **kwargs):
         'method': request.method
     }
     request_body_data = json.loads(request.body)
-    if request_body_data['num1'].isdigit() and request_body_data['num2'].isdigit():
+    try:
         result = int(request_body_data['num1']) * int(request_body_data['num2'])
         response_data['answer'] = result
         return JsonResponse(response_data)
-    else:
+    except ValueError:
         response = JsonResponse({"error": "Bad Request"})
         response.status_code = 400
         return response
@@ -61,16 +61,19 @@ def divide(request,  *args, **kwargs):
         'method': request.method
     }
     request_body_data = json.loads(request.body)
-    if request_body_data['num1'].isdigit() and request_body_data['num2'].isdigit():
-        if int(request_body_data['num1']) != 0 and int(request_body_data['num2']) != 0:
-            result = int(request_body_data['num1']) / int(request_body_data['num2'])
-            response_data['answer'] = result
-            return JsonResponse(response_data)
-        else:
-            response = JsonResponse({"error": "No Division By Zero"})
-            response.status_code = 400
-            return response
-    else:
+    try:
+        result = int(request_body_data['num1']) / int(request_body_data['num2'])
+        response_data['answer'] = result
+        return JsonResponse(response_data)
+        # else:
+        #     response = JsonResponse({"error": "No Division By Zero"})
+        #     response.status_code = 400
+        #     return response
+    except ValueError:
         response = JsonResponse({"error": "Bad Request"})
+        response.status_code = 400
+        return response
+    except ZeroDivisionError:
+        response = JsonResponse({"error": "No Division By Zero"})
         response.status_code = 400
         return response
